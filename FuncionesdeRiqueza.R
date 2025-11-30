@@ -85,7 +85,7 @@ Rarefac <- function(data, n=sum(data), method="Brewer & Williamson 1994", varian
 	if(method=="Coleman 1981") { Rare <- Sobs - sum((1-n/N)^data) }
 
 	if(varianza==TRUE) {
-		# the unconditional variance of Colwell et al. (2012, J. Plant Ecol. 5(1):3-21)
+		#  unconditional variance of Colwell et al. (2012)
 		# compute in logarithmic scale to avoid numerical overflow
 		B <- lchoose(N, n)
 
