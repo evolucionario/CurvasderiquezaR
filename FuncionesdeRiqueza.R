@@ -38,7 +38,7 @@ chao1 <- function(data) {
 
 # Colwell, R. K., Chao, A., Gotelli, N. J., Lin, S. Y., Mao, C. X., Chazdon, R. L., & Longino, J. T. (2012). Models and estimators linking individual-based and sample-based rarefaction, extrapolation and comparison of assemblages. Journal of Plant Ecology 5(1):3-21.
 
-Rarefac <- function(data, n=NULL, method="Brewer & Williamson 1994", varianza=FALSE, Stot=NULL) {
+Rarefac <- function(data, n=sum(data), method="Brewer & Williamson 1994", varianza=FALSE, Stot=NULL) {
 	
 	# Eliminar ceros, si están presentes
 	
