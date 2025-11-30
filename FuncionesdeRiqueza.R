@@ -85,12 +85,15 @@ Rarefac <- function(data, n=sum(data), method="Brewer & Williamson 1994", varian
 	if(method=="Coleman 1981") { Rare <- Sobs - sum((1-n/N)^data) }
 
 	if(varianza==TRUE) {
-		
-		B <- choose(N, n)
+		# the unconditional variance of Colwell et al. (2012, J. Plant Ecol. 5(1):3-21)
+		# compute in logarithmic scale to avoid numerical overflow
+		B <- lchoose(N, n)
 
 		comb2 <- numeric()
 		
-		for(i in 1:length(data)) { comb2[i] <- (1-choose(N-data[i], n)/B)^2 }
+		for(i in 1:length(data)) {	
+			comb2[i] <- (1 - exp(lchoose(N-data[i], n) - B) )^2 # substract logarithms
+		}
 		
 		Comb2 <- sum(comb2, na.rm =TRUE)
 		
@@ -137,14 +140,14 @@ RareCurve <- function(data, x=NULL, varianza=FALSE, Stot=NULL, ...) {
 
 
 
-plot.RareCI <- function(rare, type=1, color=rgb(.5,.5,.5,.5), ...) {
+plot.RareCI <- function(rare, type=1, ...) {
 	
 	rare <- as.data.frame(rare)
 	
 	final <- nrow(rare)
 	
 	if(type==1) {
-		polygon(x=c(rare$n, rev(rare$n)), y=c(rare$Sexp+2*rare$Ssd, rev(rare$Sexp-2*rare$Ssd)), col=color,...)
+		polygon(x=c(rare$n, rev(rare$n)), y=c(rare$Sexp+2*rare$Ssd, rev(rare$Sexp-2*rare$Ssd)),...)
 	}
 
 	if(type==2) { 
